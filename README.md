@@ -4,7 +4,7 @@ This link provides a set of scripts that can be run to automate
 the installation of pcp and openstack components needed to use
 Host Memory Bandwidth Information for cloud placement decisions.
 
-Following gives a breif description of each of the files:
+Following gives a brief description of each of the files:
 
 1. utils.py: This file contains a set of utilities needed by the scripts below.
 
