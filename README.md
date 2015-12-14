@@ -13,12 +13,14 @@ and pcp components. This script assumes that the kernel components needed
 to expose Memory Bandwidth are already available on the system on which this
 would be run.
 
-3. openstack_install.py: This file is responsible for installing the openstack
-components needed to report the host memory bandwidth and eventually take a scheduling
-decision based on the metric. The changes are needed at two places:
+3. openstack_install_compute.py: This file is responsible for installing the openstack
+components needed to report the host memory bandwidth on the Compute node.
 
-- compute node 
-- nova scheduler node.
+Note: In addition to running this script, ./nova-12.0.0-py2.7.egg-info/entry_points.txt
+should be updated with the following entry:
 
-The same script should be run on either places to kick start an automated way of getting the changes.
+[nova.compute.monitors.membw]
+virt_driver = nova.compute.monitors.membw.virt_driver:Monitor
 
+4. openstac_install_controller.py: This file should be executed on the OpenStack scheduler
+node.
