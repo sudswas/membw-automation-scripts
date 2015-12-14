@@ -43,7 +43,7 @@ def apply_compute_changes():
                  'compute': 'claims.py'}
     git_repo = "https://github.com/sudswas/nova.git"
 
-    #utils.helper.git_clone(git_repo, 'nova', "stable/liberty")
+    utils.helper.git_clone(git_repo, 'nova', "stable/liberty")
     # Copy the changes now assuming all the files have been
     # copied into the present directory.
     dir_to_create = py_path + '/compute/monitors/membw'
