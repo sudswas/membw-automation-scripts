@@ -35,8 +35,12 @@ def apply_compute_changes():
     # checkout the files needed for the compute_nodes
     path_dict = {'compute/monitors/membw': 'virt_driver.py',
                  'virt/libvirt': 'driver.py',
-                 'virt/libvirt': 'pcp_utils.py'}
-    git_repo = "https://github.com/openstack/nova.git"
+                 'virt/libvirt': 'pcp_utils.py',
+                 'virt': 'driver.py',
+                 'compute/monitors': '__init__.py',
+                 'compute/monitors': 'base.py',
+                 'compute': 'claims.py'}
+    git_repo = "https://github.com/sudswas/nova.git"
 
     utils.helper.git_clone(git_repo, 'nova', "stable/liberty")
     # Copy the changes now assuming all the files have been
@@ -44,7 +48,9 @@ def apply_compute_changes():
     with utils.cd('nova/nova'):
         for dir, file_name in path_dict.iteritems():
             rel_path = dir + "/" + file_name
-            sys_file_path = py_path + rel_path
+            dir_to_create = py_path + '/compute/monitors/membw'
+            utils.helper.execute_command("mkdir " + dir_to_create)
+            sys_file_path = py_path + '/' + rel_path
             utils.helper.execute_command("cp " +
                                          rel_path + " " + sys_file_path)
             print "please restart openstack-nova-compute"
@@ -75,7 +81,8 @@ def check_openstack_scheduler():
 
 def apply_scheduler_changes():
     # checkout the files needed for the compute_nodes
-    path_dict = {'virt/': 'hardware.py'}
+    path_dict = {'virt/': 'hardware.py',
+                 'scheduler/filters' : 'numa_topology_filter.py'}
     git_repo = "https://github.com/openstack/nova.git"
 
     utils.helper.git_clone(git_repo, 'nova', "stable/liberty")
@@ -98,3 +105,6 @@ def apply_scheduler_changes():
                                  + filters + ",NUMATopologyFilter")
 
     print "please restart openstack-nova-scheduler"
+
+check_openstack_compute()
+apply_scheduler_changes()
