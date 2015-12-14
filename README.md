@@ -19,7 +19,9 @@ components needed to report the host memory bandwidth on the Compute node.
 Note: In addition to running this script, ./nova-12.0.0-py2.7.egg-info/entry_points.txt
 should be updated with the following entry:
 
+
 [nova.compute.monitors.membw]
+
 virt_driver = nova.compute.monitors.membw.virt_driver:Monitor
 
 4. openstac_install_controller.py: This file should be executed on the OpenStack scheduler
