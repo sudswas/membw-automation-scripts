@@ -33,14 +33,14 @@ def check_openstack_compute():
 
 def apply_compute_changes():
     # checkout the files needed for the compute_nodes
-    path_dict = {'compute/monitors/membw': 'virt_driver.py',
-                 'compute/monitors/membw': '__init__.py',
-                 'virt/libvirt': 'driver.py',
-                 'virt/libvirt': 'pcp_utils.py',
-                 'virt': 'driver.py',
-                 'compute/monitors': '__init__.py',
-                 'compute/monitors': 'base.py',
-                 'compute': 'claims.py'}
+    path_dict = {'virt_driver.py': 'compute/monitors/membw',
+                 '__init__.py': 'compute/monitors/membw',
+                 'driver.py': 'virt/libvirt',
+                 'pcp_utils.py': 'virt/libvirt',
+                 'driver.py': 'virt',
+                 '__init__.py': 'compute/monitors',
+                 'base.py': 'compute/monitors',
+                 'claims.py': 'compute'}
     git_repo = "https://github.com/sudswas/nova.git"
 
     utils.helper.git_clone(git_repo, 'nova', "stable/liberty")
@@ -49,7 +49,7 @@ def apply_compute_changes():
     dir_to_create = py_path + '/compute/monitors/membw'
     utils.helper.execute_command("mkdir " + dir_to_create)
     with utils.cd('nova/nova'):
-        for dir, file_name in path_dict.iteritems():
+        for file_name, dir in path_dict.iteritems():
             rel_path = dir + "/" + file_name
             sys_file_path = py_path + '/' + rel_path
             utils.helper.execute_command("cp " +
