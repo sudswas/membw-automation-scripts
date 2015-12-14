@@ -34,6 +34,7 @@ def check_openstack_compute():
 def apply_compute_changes():
     # checkout the files needed for the compute_nodes
     path_dict = {'compute/monitors/membw': 'virt_driver.py',
+                 'compute/monitors/membw': '__init__.py',
                  'virt/libvirt': 'driver.py',
                  'virt/libvirt': 'pcp_utils.py',
                  'virt': 'driver.py',
@@ -42,23 +43,23 @@ def apply_compute_changes():
                  'compute': 'claims.py'}
     git_repo = "https://github.com/sudswas/nova.git"
 
-    utils.helper.git_clone(git_repo, 'nova', "stable/liberty")
+    #utils.helper.git_clone(git_repo, 'nova', "stable/liberty")
     # Copy the changes now assuming all the files have been
     # copied into the present directory.
+    dir_to_create = py_path + '/compute/monitors/membw'
+    utils.helper.execute_command("mkdir " + dir_to_create)
     with utils.cd('nova/nova'):
         for dir, file_name in path_dict.iteritems():
             rel_path = dir + "/" + file_name
-            dir_to_create = py_path + '/compute/monitors/membw'
-            utils.helper.execute_command("mkdir " + dir_to_create)
             sys_file_path = py_path + '/' + rel_path
             utils.helper.execute_command("cp " +
                                          rel_path + " " + sys_file_path)
-            print "please restart openstack-nova-compute"
-
     utils.helper.execute_command("openstack-config " + "--set " +
-                                 "/etc/nova/nova.conf" + "DEFAULT" + " "
+                                 "/etc/nova/nova.conf " + "DEFAULT" + " "
                                  + "compute_monitors" + " " +
                                  "membw.virt_driver")
+
+    print "Please restart nova-compute"
 
 
 def check_openstack_scheduler():
@@ -107,4 +108,4 @@ def apply_scheduler_changes():
     print "please restart openstack-nova-scheduler"
 
 check_openstack_compute()
-apply_scheduler_changes()
+#apply_scheduler_changes()
