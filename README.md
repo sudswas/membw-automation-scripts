@@ -16,14 +16,16 @@ would be run.
 3. **openstack_install_compute.py**: This file is responsible for installing the openstack
 components needed to report the host memory bandwidth on the Compute node.
 
-4. **openstac_install_controller.py**: This file should be executed on the OpenStack scheduler
+4. **openstack_install_controller.py**: This file should be executed on the OpenStack scheduler
 node.
 
 Note: In addition to running this script, ./nova-12.0.0-py2.7.egg-info/entry_points.txt
 should be updated with the following entry:
 
 ```
-**[nova.compute.monitors.membw]
-virt_driver = nova.compute.monitors.membw.virt_driver:Monitor**
+[nova.compute.monitors.membw]
+virt_driver = nova.compute.monitors.membw.virt_driver:Monitor
 ```
+
+The minimum libvirt version required on the PowerPC compute node is **1.2.19**
 
