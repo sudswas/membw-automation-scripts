@@ -20,7 +20,7 @@ components needed to report the host memory bandwidth on the Compute node.
 node.
 
 Note: In addition to running this script, ./nova-12.0.0-py2.7.egg-info/entry_points.txt
-should be updated with the following entry:
+should be updated with the following entry on each of the compute nodes:
 
 ```
 [nova.compute.monitors.membw]
@@ -28,4 +28,16 @@ virt_driver = nova.compute.monitors.membw.virt_driver:Monitor
 ```
 
 The minimum libvirt version required on the PowerPC compute node is **1.2.19**
+The changes are based on **OpenStack** *Liberty*
 
+
+# Description
+
+Broadly, the scripts perform the following actions:
+
+1. Pulls code from hardcoded git repositories which are pretty much WIP.
+
+2. Does all the necessary installation steps required to make things work.
+
+
+*This is pretty much WIP (Work In Progress)
