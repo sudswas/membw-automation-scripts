@@ -40,4 +40,4 @@ Broadly, the scripts perform the following actions:
 2. Does all the necessary installation steps required to make things work.
 
 
-*This is pretty much WIP (Work In Progress)
+*This is pretty much WIP (Work In Progress)*
