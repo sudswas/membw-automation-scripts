@@ -79,6 +79,23 @@ def check_openstack_scheduler():
                 apply_scheduler_changes()
                 break
 
+def check_openstack_scheduler():
+    # This changes the scheduler of openstack with the required changes.
+    nova_cmp = utils.helper.pack_exists("nova-scheduler")
+    global py_path
+    if nova_cmp:
+        # check the openstack version
+        if "12" not in version.version_string():
+            print "This installation is not  based on openstack liberty"
+            exit()
+        # This is most likely the compute node. Let's try to detect where
+        # nova is installed.
+        for path in sys.path:
+            if os.path.isdir(path + '/nova') and "python" in path:
+                py_path = path + '/nova'
+                apply_scheduler_changes()
+                break
+
 
 def apply_scheduler_changes():
     # checkout the files needed for the compute_nodes
@@ -97,15 +114,15 @@ def apply_scheduler_changes():
                                          rel_path + " " + sys_file_path)
 
     filters = utils.helper.execute_command("openstack-config " + "--get " +
-                                    "/etc/nova/nova.conf" + "DEFAULT" + " "
-                                    + "default_scheduler_filters")
+                                    "/etc/nova/nova.conf " + "DEFAULT" + " "
+                                    + "scheduler_default_filters")
     if "NUMA" not in filters:
-        utils.helper.execute_command("openstack-config " + "--set " +
-                                 "/etc/nova/nova.conf" + "DEFAULT" + " "
-                                 + "default_scheduler_filters" + " " +
-                                 + filters + ",NUMATopologyFilter")
+        numa_added = filters.rstrip() + ",NUMATopologyFilter"
+        set_property = "openstack-config --set /etc/nova/nova.conf DEFAULT default_scheduler_filters " + numa_added
+        utils.helper.execute_command(set_property)
 
     print "please restart openstack-nova-scheduler"
 
+
 #check_openstack_compute()
-apply_scheduler_changes()
+check_openstack_scheduler()
