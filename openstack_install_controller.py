@@ -52,7 +52,7 @@ def apply_compute_changes():
         for dir, file_name in path_dict.iteritems():
             rel_path = dir + "/" + file_name
             sys_file_path = py_path + '/' + rel_path
-            utils.helper.execute_command("mv " +
+            utils.helper.execute_command("cp -f " +
                                          rel_path + " " + sys_file_path)
     utils.helper.execute_command("openstack-config " + "--set " +
                                  "/etc/nova/nova.conf " + "DEFAULT" + " "
@@ -109,8 +109,8 @@ def apply_scheduler_changes():
     with utils.cd('nova/nova'):
         for dir, file_name in path_dict.iteritems():
             rel_path = dir + "/" + file_name
-            sys_file_path = py_path + rel_path
-            utils.helper.execute_command("mv " +
+            sys_file_path = py_path + "/" + rel_path
+            utils.helper.execute_command("cp -f " +
                                          rel_path + " " + sys_file_path)
 
     filters = utils.helper.execute_command("openstack-config " + "--get " +
